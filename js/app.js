@@ -1,32 +1,58 @@
 const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
+// Get saved favorites
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 favoriteButtons.forEach((button) => {
 
-    button.addEventListener("click", () => {
+    const card = button.closest(".media-card");
+    const movieId = card.dataset.id;
 
-        if (button.innerHTML === "♡") {
-            button.innerHTML = "❤️";
+    // Show saved favorite when page loads
+    if (favorites.includes(movieId)) {
+        button.textContent = "❤️";
+    } else {
+        button.textContent = "♡";
+    }
+
+    button.addEventListener("click", (e) => {
+
+        // Prevent opening the movie page
+        e.stopPropagation();
+
+        if (favorites.includes(movieId)) {
+
+            favorites = favorites.filter(id => id !== movieId);
+            button.textContent = "♡";
+
         } else {
-            button.innerHTML = "♡";
+
+            favorites.push(movieId);
+            button.textContent = "❤️";
+
         }
+
+        localStorage.setItem("favorites", JSON.stringify(favorites));
 
     });
 
 });
 const watchBtn = document.querySelector(".watch-btn");
 
-watchBtn.addEventListener("click", () => {
-    alert("🎬 Now Playing: Interstellar");
-});
+if (watchBtn) {
+    watchBtn.addEventListener("click", () => {
+        alert("🎬 Now Playing: Interstellar");
+    });
+}
 const movieCards = document.querySelectorAll(".media-card");
 
 movieCards.forEach((card) => {
 
     card.addEventListener("click", () => {
 
-        const movie = card.dataset.movie;
+        const movieId = card.dataset.id;
 
-        alert("Opening " + movie);
+        window.location.href = `movies.html?id=${movieId}`;
 
     });
 
