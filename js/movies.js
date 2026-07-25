@@ -5,13 +5,11 @@ const movieId = params.get("id");
 
 // Find the selected movie
 const movie = movies.find(m => m.id === movieId);
-const bg = document.querySelector(".background-image");
-
-bg.style.backgroundImage = `url(${movie.backdrop})`;
-
 // If movie exists
 if (movie) {
+    const bg = document.querySelector(".background-image");
 
+    bg.style.backgroundImage = `url(${movie.backdrop})`;
     document.getElementById("movie-title").textContent = movie.title;
 
     document.getElementById("movie-genre").textContent = movie.genre;
@@ -25,36 +23,39 @@ if (movie) {
     document.getElementById("movie-description").textContent = movie.description;
 
     document.getElementById("movie-poster").src = movie.poster;
-    const banner = document.querySelector(".movie-banner");
-
-   banner.style.backgroundImage = `url(${movie.poster})`;
 
     document.getElementById("movie-poster").alt = movie.title;
 
-    // Cast
-    const castContainer = document.getElementById("movie-cast");
+   // Cast
+const castContainer = document.getElementById("movie-cast");
 
-    movie.cast.forEach(actor => {
+movie.cast.forEach(actor => {
 
-        const card = document.createElement("div");
+    const card = document.createElement("div");
 
-        card.className = "cast-card";
+    card.className = "cast-card";
 
-        card.textContent = actor;
+    card.textContent = actor;
 
-        castContainer.appendChild(card);
+    castContainer.appendChild(card);
 
-    });
+});
+// Trailer Button
+const watchBtn = document.getElementById("watch-btn");
 
-    // Trailer Button
-    document.getElementById("watch-btn").addEventListener("click", () => {
+watchBtn.addEventListener("click", () => {
 
-        window.open(movie.trailer, "_blank");
+    console.log(movie);
 
-    });
+    console.log(movie.trailer);
+
+    window.open(movie.trailer, "_blank");
+
+});
 
 } else {
 
-    document.body.innerHTML = "<h1 style='text-align:center;margin-top:100px;'>Movie Not Found 😢</h1>";
+    document.body.innerHTML =
+        "<h1 style='text-align:center; margin-top:100px;'>Movie Not Found 😢</h1>";
 
 }

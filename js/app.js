@@ -1,3 +1,12 @@
+const user = localStorage.getItem("orbitUser");
+
+if(user){
+
+    console.log("Welcome", user);
+
+}
+
+
 const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
 // Get saved favorites
@@ -37,13 +46,6 @@ favoriteButtons.forEach((button) => {
     });
 
 });
-const watchBtn = document.querySelector(".watch-btn");
-
-if (watchBtn) {
-    watchBtn.addEventListener("click", () => {
-        alert("🎬 Now Playing: Interstellar");
-    });
-}
 const movieCards = document.querySelectorAll(".media-card");
 
 movieCards.forEach((card) => {
@@ -157,5 +159,14 @@ themeOptions.forEach(option => {
         themeMenu.style.display = "none";
 
     });
+
+});
+const heroWatchBtn = document.querySelector(".hero .watch-btn");
+
+heroWatchBtn.addEventListener("click", () => {
+
+    const movieId = heroWatchBtn.dataset.id;
+
+    window.location.href = `movies.html?id=${movieId}`;
 
 });
