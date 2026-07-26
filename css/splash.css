@@ -1,280 +1,290 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap');
+/* ===========================
+   Google Font
+=========================== */
 
-:root{
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
-    --bg:#050A18;
-    --gold:#D4AF37;
-    --white:#ffffff;
-
-}
+/* ===========================
+   Reset
+=========================== */
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
+html,
 body{
 
+    width:100%;
+    height:100%;
     overflow:hidden;
 
-    background:var(--bg);
+    background:#040712;
 
     font-family:"Inter",sans-serif;
 
 }
 
-/* =========================
+/* ===========================
    Universe
-========================= */
+=========================== */
 
-.universe{
+#universe{
 
-    position:relative;
+    position:fixed;
 
-    width:100vw;
+    inset:0;
 
-    height:100vh;
+    width:100%;
 
-    overflow:hidden;
+    height:100%;
 
-    background:
-        radial-gradient(circle at center,#1b2747 0%,#050A18 70%);
+    display:block;
+
+    z-index:1;
 
 }
 
-/* =========================
-   Stars
-========================= */
+/* ===========================
+   Background Glow
+=========================== */
 
-.star{
+body::before{
+
+    content:"";
 
     position:absolute;
+
+    inset:0;
+
+    background:
+    radial-gradient(circle at center,
+    rgba(234,191,59,.08),
+    transparent 60%);
+
+    pointer-events:none;
+
+    z-index:2;
+
+}
+
+/* ===========================
+   Black Hole
+=========================== */
+
+#blackHole{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:15px;
+    height:15px;
+
+    border-radius:50%;
+
+    background:#000;
+
+    box-shadow:
+
+    0 0 30px rgba(255,210,80,.25),
+    0 0 80px rgba(255,180,40,.18),
+    0 0 150px rgba(255,180,40,.12);
+
+    opacity:0;
+
+    z-index:5;
+
+}
+
+/* ===========================
+   Logo
+=========================== */
+
+#logoContainer{
+
+    position:absolute;
+
+    inset:0;
 
     display:flex;
 
     flex-direction:column;
 
+    justify-content:center;
+
     align-items:center;
 
-    gap:12px;
-
-    color:var(--gold);
+    z-index:20;
 
     opacity:0;
 
 }
 
-.star i{
-
-    font-size:34px;
-
-    text-shadow:0 0 25px rgba(212,175,55,.8);
-
-}
-
-.star span{
-
-    color:white;
-
-    font-size:18px;
-
-    letter-spacing:1px;
-
-}
-
-/* Initial Positions */
-
-.movie{
-
-    top:18%;
-
-    left:22%;
-
-}
-
-.series{
-
-    top:22%;
-
-    right:20%;
-
-}
-
-.anime{
-
-    bottom:22%;
-
-    left:20%;
-
-}
-
-.music{
-
-    bottom:18%;
-
-    right:22%;
-
-}
-
-/* =========================
-   Orbit Ring
-========================= */
-
-.orbit-ring{
-
-    position:absolute;
-
-    left:50%;
-
-    top:50%;
+#logo{
 
     width:420px;
 
-    height:420px;
+    max-width:80vw;
 
-    border:2px solid rgba(212,175,55,.4);
+    filter:
 
-    border-radius:50%;
+    drop-shadow(0 0 25px rgba(255,198,70,.35))
 
-    transform:translate(-50%,-50%);
+    drop-shadow(0 0 60px rgba(255,198,70,.15));
 
-    opacity:0;
-
-}
-
-/* =========================
-   Center
-========================= */
-
-.center{
-
-    position:absolute;
-
-    left:50%;
-
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    text-align:center;
-
-    opacity:0;
+    transform:scale(.8);
 
 }
 
-.orbit-logo{
+/* ===========================
+   Tagline
+=========================== */
 
-    width:180px;
+#logoContainer h2{
 
-    margin-bottom:20px;
+    margin-top:35px;
 
-}
+    font-family:"Orbitron",sans-serif;
 
-.center h1{
+    font-size:18px;
 
-    font-family:"Sora",sans-serif;
-
-    font-size:72px;
-
-    color:white;
+    font-weight:400;
 
     letter-spacing:10px;
 
-}
+    color:white;
 
-.center p{
+    text-transform:uppercase;
 
-    margin-top:20px;
-
-    color:#d5d5d5;
-
-    font-size:20px;
-
-    line-height:1.8;
-
-}
-/* =========================
-   Animation Classes
-========================= */
-
-.show{
-
-    opacity:1 !important;
-
-    transition:1s;
+    opacity:.85;
 
 }
 
-.fade{
+/* ===========================
+   Loading Text
+=========================== */
 
-    opacity:0 !important;
+.loading{
 
-    transition:1s;
+    position:absolute;
 
-}
+    bottom:60px;
 
-.move{
+    width:100%;
 
-    transition:2.5s ease-in-out;
+    text-align:center;
 
-}
+    color:#d8b14c;
 
-/* Final Orbit Positions */
+    font-size:13px;
 
-.movie.move{
+    letter-spacing:7px;
 
-    top:32%;
+    text-transform:uppercase;
 
-    left:40%;
+    z-index:25;
 
-}
-
-.series.move{
-
-    top:32%;
-
-    right:40%;
+    opacity:.65;
 
 }
 
-.anime.move{
+/* ===========================
+   Twinkle Animation
+=========================== */
 
-    bottom:32%;
+@keyframes pulse{
 
-    left:40%;
+    0%{
 
-}
+        opacity:.25;
 
-.music.move{
-
-    bottom:32%;
-
-    right:40%;
-
-}
-
-/* Orbit Rotation */
-
-.rotate{
-
-    animation:spin 8s linear infinite;
-
-}
-
-@keyframes spin{
-
-    from{
-
-        transform:translate(-50%,-50%) rotate(0deg);
+        transform:scale(.9);
 
     }
 
-    to{
+    50%{
 
-        transform:translate(-50%,-50%) rotate(360deg);
+        opacity:1;
+
+        transform:scale(1.1);
+
+    }
+
+    100%{
+
+        opacity:.25;
+
+        transform:scale(.9);
+
+    }
+
+}
+
+/* ===========================
+   Logo Reveal
+=========================== */
+
+@keyframes logoGlow{
+
+    0%{
+
+        filter:
+
+        drop-shadow(0 0 0px rgba(255,198,70,.1));
+
+    }
+
+    50%{
+
+        filter:
+
+        drop-shadow(0 0 35px rgba(255,198,70,.45));
+
+    }
+
+    100%{
+
+        filter:
+
+        drop-shadow(0 0 18px rgba(255,198,70,.25));
+
+    }
+
+}
+
+#logo{
+
+    animation:logoGlow 3s ease-in-out infinite;
+
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media(max-width:768px){
+
+    #logo{
+
+        width:270px;
+
+    }
+
+    #logoContainer h2{
+
+        font-size:12px;
+
+        letter-spacing:4px;
+
+        text-align:center;
+
+        padding:0 20px;
 
     }
 
