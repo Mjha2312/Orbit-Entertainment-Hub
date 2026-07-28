@@ -2,11 +2,11 @@
 // Canvas
 // ===========================
 
-const canvas = document.getElementById("universe");
+const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 // ===========================
 // Stars
@@ -28,11 +28,11 @@ class Star {
 
         this.y = Math.random() * canvas.height;
 
-        this.size = Math.random() * 2 + 0.5;
+        this.radius = Math.random() * 2 + 0.5;
 
-        this.alpha = Math.random();
+        this.opacity = Math.random();
 
-        this.speed = Math.random() * 0.015 + 0.005;
+        this.speed = Math.random() * 0.015 + 0.003;
 
     }
 
@@ -41,20 +41,14 @@ class Star {
         ctx.beginPath();
 
         ctx.arc(
-
             this.x,
-
             this.y,
-
-            this.size,
-
+            this.radius,
             0,
-
             Math.PI * 2
-
         );
 
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+        ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
 
         ctx.fill();
 
@@ -62,9 +56,9 @@ class Star {
 
     update() {
 
-        this.alpha += this.speed;
+        this.opacity += this.speed;
 
-        if (this.alpha > 1 || this.alpha < .2) {
+        if (this.opacity >= 1 || this.opacity <= 0.2) {
 
             this.speed *= -1;
 
@@ -76,167 +70,32 @@ class Star {
 
 }
 
-for (let i = 0; i < 300; i++) {
+// Create Stars
+
+for (let i = 0; i < 180; i++) {
 
     stars.push(new Star());
 
 }
 
 // ===========================
-// Variables
-// ===========================
-
-let showUniverse = false;
-let showIcons = false;
-let orbit = 0;
-let blackHole = false;
-
-let iconRadius = 180;
-
-// ===========================
-// Icons
-// ===========================
-
-const icons = [
-
-    "🎬",
-
-    "📺",
-
-    "🍥",
-
-    "🎵"
-
-];
-
-// ===========================
-// Draw Icons
-// ===========================
-
-function drawIcons() {
-
-    orbit += 0.01;
-
-    // When black hole appears,
-    // pull icons inward
-    if (blackHole) {
-
-        iconRadius *= 0.985;
-
-        if (iconRadius < 8) {
-
-            showIcons = false;
-            return;
-
-        }
-
-    }
-
-    icons.forEach((icon, index) => {
-
-        const angle = orbit + index * (Math.PI / 2);
-
-        const x = canvas.width / 2 + Math.cos(angle) * iconRadius;
-
-        const y = canvas.height / 2 + Math.sin(angle) * iconRadius;
-
-        ctx.save();
-
-        ctx.font = "45px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        ctx.fillText(icon, x, y);
-
-        ctx.restore();
-
-    });
-
-}
-
-// ===========================
-// Draw Black Hole
-// ===========================
-
-let holeRadius = 0;
-
-function drawBlackHole() {
-
-    holeRadius += .4;
-
-    ctx.beginPath();
-
-    ctx.arc(
-
-        canvas.width / 2,
-
-        canvas.height / 2,
-
-        holeRadius,
-
-        0,
-
-        Math.PI * 2
-
-    );
-
-   const gradient = ctx.createRadialGradient(
-
-    canvas.width / 2,
-    canvas.height / 2,
-    0,
-
-    canvas.width / 2,
-    canvas.height / 2,
-    holeRadius
-
-);
-
-gradient.addColorStop(0,"#000");
-gradient.addColorStop(.6,"rgba(0,0,0,.95)");
-gradient.addColorStop(1,"rgba(255,180,40,.15)");
-
-ctx.fillStyle = gradient;
-
-    ctx.fill();
-
-}
-
-// ===========================
-// Animation
+// Animate Stars
 // ===========================
 
 function animate() {
 
     ctx.clearRect(
-
         0,
-
         0,
-
         canvas.width,
-
         canvas.height
-
     );
 
-    if (showUniverse) {
+    stars.forEach(star => {
 
-        stars.forEach(star => star.update());
+        star.update();
 
-    }
-
-    if (showIcons) {
-
-        drawIcons();
-
-    }
-
-    if (blackHole) {
-
-        drawBlackHole();
-
-    }
+    });
 
     requestAnimationFrame(animate);
 
@@ -245,76 +104,69 @@ function animate() {
 animate();
 
 // ===========================
-// Story Timeline
+// GSAP Timeline
 // ===========================
 
-// Universe
-
-setTimeout(() => {
-
-    showUniverse = true;
-
-}, 1000);
-
-// Icons
-
-setTimeout(() => {
-
-    showIcons = true;
-
-}, 5000);
-
-// Black Hole
-
-setTimeout(() => {
-
-    blackHole = true;
-
-}, 10000);
+const tl = gsap.timeline();
 
 // Logo
 
-setTimeout(() => {
+tl.to(".logo", {
 
-    gsap.to("#logoContainer", {
+    opacity: 1,
+    scale: 1,
+    duration: 1.6,
+    ease: "power3.out"
 
-        opacity: 1,
+})
 
-        scale: 1,
+// Tagline
 
-        duration: 2
+.to(".tagline", {
 
-    });
+    opacity: 1,
+    y: -8,
+    duration: 1,
+    ease: "power2.out"
 
-}, 14000);setTimeout(() => {
+}, "-=0.6")
 
-    gsap.fromTo(
+// Loading
 
-        "#logoContainer",
+.to(".loading", {
 
-        {
-            opacity:0,
-            scale:0.2
-        },
+    opacity: 1,
+    duration: .8
 
-        {
-            opacity:1,
-            scale:1,
-            duration:2,
-            ease:"power3.out"
-        }
+}, "-=0.3")
 
-    );
+// Hold
 
-},16000);
+.to({}, {
 
+    duration: 1.8
+
+})
+
+// Fade Everything
+
+.to(".container", {
+
+    opacity: 0,
+    duration: 1,
+    ease: "power2.inOut"
+
+});
+
+// ===========================
 // Redirect
+// ===========================
 
 setTimeout(() => {
 
     window.location.href = "login.html";
 
-}, 22000);
+}, 6200);
 
 // ===========================
 // Resize
@@ -322,8 +174,7 @@ setTimeout(() => {
 
 window.addEventListener("resize", () => {
 
-    canvas.width = innerWidth;
-
-    canvas.height = innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
 });

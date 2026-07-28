@@ -9,35 +9,58 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>Orbit Splash</title>
+    <title>Orbit</title>
 
+    <!-- CSS -->
     <link
         rel="stylesheet"
         href="css/splash.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
 
 </head>
 
 <body>
 
-    <!-- Universe Canvas -->
-    <canvas id="universe"></canvas>
+    <!-- ==========================
+         Stars Background
+    =========================== -->
 
-    <!-- Black Hole -->
-    <div id="blackHole"></div>
+    <canvas id="stars"></canvas>
 
-    <!-- Orbit Logo -->
-    <div id="logoContainer">
+    <!-- ==========================
+         Logo Section
+    =========================== -->
+
+    <main class="container">
 
         <img
             src="image/splash.png"
             alt="Orbit Logo"
-            id="logo">
+            class="logo">
 
-        <h2>
-            Every Story. Every World. One Orbit.
+        <h2 class="tagline">
+
+            Every Story.
+            Every World.
+            One Orbit.
+
         </h2>
 
-    </div>
+        <p class="loading">
+
+            Loading...
+
+        </p>
+
+    </main>
+
+    <!-- ==========================
+         JS
+    =========================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
 
